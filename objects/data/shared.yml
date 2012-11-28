@@ -257,3 +257,9 @@ Term:
 
 # Internal
 EndShared:
+
+---
+
+# UNS delivery frequency
+Frequency: !enum (values=(REAL_TIME, BATCH), default=REAL_TIME)
+

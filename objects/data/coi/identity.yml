@@ -24,6 +24,11 @@ TokenInformation:
   expires : ""     # Timestamp (UNIX epoch) for when the token expires in UTC
   status: ""       # OPEN, VERIFIED, EXPIRED
   merge_email: ""  # Email address of merge account
+
+---
+NotificationPreferences: !Extends_InformationResource
+  frequency: !Frequency # real time or batch
+  disabled: False # switch for whether the user will get any notification emails
 ---
 
 # Represents a human user registered with the system, with their contact information,
@@ -31,6 +36,7 @@ TokenInformation:
 UserInfo: !Extends_InformationResource
   contact: !ContactInformation
   tokens: []  # list of TokenInformation
+  notification_preferences: !NotificationPreferences # the preferences of the user regarding notifications
   variables:
   - name: ""
     value: ""
