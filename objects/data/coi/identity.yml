@@ -26,11 +26,6 @@ TokenInformation:
   merge_email: ""  # Email address of merge account
 
 ---
-NotificationPreferences: !Extends_InformationResource
-  frequency: !Frequency # real time or batch
-  disabled: False # switch for whether the user will get any notification emails
----
-
 NotificationDeliveryModeEnum: !enum (values=(REALTIME, BATCH), default=REALTIME)
 
 ---
