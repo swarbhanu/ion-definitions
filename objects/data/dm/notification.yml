@@ -4,6 +4,8 @@ DeliveryMode: !enum (values=(DIGEST, UNFILTERED, ABRIDGED), default=DIGEST)
 
 NotificationType: !enum (values=(EMAIL, FILTER), default=EMAIL)
 
+Frequency: !enum (values=(REAL_TIME, BATCH), default=REAL_TIME)
+
 ---
 
 # Base class objects....

@@ -24,7 +24,6 @@ TokenInformation:
   expires : ""     # Timestamp (UNIX epoch) for when the token expires in UTC
   status: ""       # OPEN, VERIFIED, EXPIRED
   merge_email: ""  # Email address of merge account
-
 ---
 NotificationDeliveryModeEnum: !enum (values=(REALTIME, BATCH), default=REALTIME)
 
