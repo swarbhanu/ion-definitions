@@ -25,6 +25,7 @@ TokenInformation:
   status: ""       # OPEN, VERIFIED, EXPIRED
   merge_email: ""  # Email address of merge account
 ---
+
 NotificationDeliveryModeEnum: !enum (values=(REALTIME, BATCH), default=REALTIME)
 
 ---
@@ -39,7 +40,6 @@ NotificationPreferences:
 UserInfo: !Extends_InformationResource
   contact: !ContactInformation
   tokens: []  # list of TokenInformation
-  notification_preferences: !NotificationPreferences # the preferences of the user regarding notifications
   variables:
   - name: ""
     value: ""
