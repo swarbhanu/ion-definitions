@@ -126,7 +126,7 @@ Parameter:
   cdm_data_type: ""     # the THREDDS data type
   axis: ""              # for CF compliance, holds X, Y, Z or T for vars holding lat, lon, depth and time info
   code_reports: []      # provide the meaning of flags in CodeReport objects
-  comment: ""
+  description: ""           # a human-readable description of the parameter
   reference_urls: []    # List of URLs with information about the data parameter
   units: ""
   ion_name: ""
@@ -147,7 +147,7 @@ Device: !Extends_TaskableResource
   # Recommended format: {attribute1_name:value, attribute2_name:value}
   # The attribute names should align with the DeviceModel:custom_attributes:name field for this type of device.
   custom_attributes: {}
-  parameter_characteristic_reports: []    # list of ParameterCharacteristicsReport objects
+
 
 
 # Represents a grouping of devices by common characteristics, e.g. a vendor's make and model. Abstract base type.
@@ -174,9 +174,8 @@ DeviceModel: !Extends_InformationResource
   # A device of this model should then store these attribute values in the corresponding custom_attributes
   # of the device instance.
   custom_attributes: []
-  # tag is the stream name that the driver uses and the value is the paramter dictionary name.
-  stream_configuration: {}
   has_clock: True      # Indicates whether the device has an internal clock or not
+  parameter_characteristics_reports: []    # list of ParameterCharacteristicsReport objects
 ---
 
 AttachmentType: !enum (values=(ASCII, BLOB, OBJECT), default=ASCII)
@@ -241,6 +240,20 @@ AgentInstance: !Extends_InformationResource
 
 ---
 
+StreamConfiguration:
+  stream_name: ""                 # the tag that the driver uses to reference this stream
+  parameter_dictionary_name: ""   # the name of the parameter dictionary that defines the contents of the stream
+  records_per_granule: 0          # recommended number of records/samples to place in a single granule
+  granule_publish_rate: 0         # max recommended seconds between publishing granules
+
+---
+
+# Describes a running or scheduled  agent representing a single device. Abstract base type.
+DeviceAgent: !Extends_AgentDefinition
+  stream_configurations: []     #set of StreamConfiguration objects that this agent/driver produces
+
+---
+
 ProcessStateEnum: !enum (values=(REQUESTED, WAITING, PENDING, RUNNING, TERMINATING, TERMINATED, FAILED, REJECTED, EXITED), default=REQUESTED)
 ServiceStateEnum: !enum (values=(PENDING, READY, STEADY, FAILED), default=PENDING)
 
@@ -260,6 +273,60 @@ EndShared:
 
 ---
 
-# UNS delivery frequency
-Frequency: !enum (values=(REAL_TIME, BATCH), default=REAL_TIME)
+# Governance related objects
 
+# Enum for originator of the proposal
+ProposalOriginatorEnum: !enum (values=(CONSUMER, PROVIDER, BROKER), default=CONSUMER)
+
+# Enum for the status of the proposal
+ProposalStatusEnum: !enum (values=(INITIAL, COUNTER, ACCEPTED, REJECTED, GRANTED), default=INITIAL)
+
+---
+
+# Object representing a current proposal for a service agreement. The proposal may contain several items of
+# different type, or can be a composite of service agreement proposals.
+ServiceAgreementProposal:
+  negotiation_id: ""   #What negotiation resource is this part of
+  originator: !ProposalOriginatorEnum
+  consumer: ""     #Who will be the consumer of this proposal - typically a used id
+  provider: ""     #Who will be the provider of this proposal - typically an org id
+  broker: ""       #Optional identifier if proposal is brokered by third party
+  sequence_num: 0  #Keeps track of the sequence of proposals within a negotiation
+  proposal_status: !ProposalStatusEnum
+  expiration: 0    #Expiration that will be used with resultant Commitment if accepted - 0 is unlimited
+  conditions: {}   #Optional collection of additional conditions - not used in R2
+  clauses: {}      #Optional collection of additional clauses - not used in R2
+
+---
+
+# Enum for the type of Negotiation
+NegotiationTypeEnum: !enum (values=(REQUEST, INVITATION, BROKERED), default=REQUEST)
+
+# Enum for the status of the Negotiation
+NegotiationStatusEnum: !enum (values=(OPEN, ACCEPTED, REJECTED), default=OPEN)
+
+---
+
+# Describes a negotiation between multiple system participants with the intent of agreeing
+# to a mutual contract with commitments if successful.
+Negotiation: !Extends_InformationResource
+  negotiation_type: !NegotiationTypeEnum
+  negotiation_status: !NegotiationStatusEnum
+  reason: ""     #Optional field to include a reason for a status
+  #@ContentType=ServiceAgreementProposal
+  proposals: []  # The last SAP in the list is considered the most recent one
+
+---
+
+#A subtype for all specific commitments
+AbstractBaseCommitment:
+
+---
+
+# Represents a standing obligation of one ION participant to another ION participant.
+# Commitments can be tracked and violations against commitments can be sanctioned.
+Commitment: !Extends_InformationResource
+  provider: ""
+  consumer: ""
+  expiration: 0    #Expiration of the Commitment - 0 is unlimited
+  commitment: !AbstractBaseCommitment

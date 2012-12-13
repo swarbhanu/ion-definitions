@@ -12,13 +12,6 @@ CompareResult:
   field_name: ""
   difference: !enum (name=CompareResultEnum, value=(EQUAL, NEW_DIM, MOD_DIM, NEW_GATT, MOD_GATT, NEW_VARATT, MOD_VARATT, NEW_VAR, MOD_VAR), default=EQUAL)
 
-Variable:
-  name: ""
-  units: ""
-  attributes: []
-  index_key: ""
-  ion_name: ""
-
 Attribute:
   name: ""
   value: None
@@ -69,10 +62,10 @@ ExternalDataset: !Extends_InformationResource
 # Describes a type of external dataset
 ExternalDatasetModel: !Extends_InformationResource
   #This defines the characteristics of a dataset class
-  datset_type: ""
+  dataset_type: ""
 
 # Describes a type of external dataset agent
-ExternalDatasetAgent: !Extends_AgentDefinition
+ExternalDatasetAgent: !Extends_DeviceAgent
   handler_module: ""
   handler_class: ""
   time_source: ""
