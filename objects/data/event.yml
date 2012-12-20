@@ -277,6 +277,8 @@ DeviceStatusEvent: !Extends_Event
   state: !DeviceStatusType
   values: []
   time_stamps: []
+  bad_values: []
+  bad_time_stamps: []
   valid_values: []
 
 ---
