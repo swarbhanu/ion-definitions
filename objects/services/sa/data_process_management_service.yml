@@ -159,7 +159,7 @@ methods:
       restarts the process corresponding to the data process object. The data process id remains same.
     in:
       data_process: !DataProcess       # the old data process object which is being replaced
-      data_process_definition_id: ""   # new data process definition to use
+      data_process_definition: !DataProcessDefinition   # new data process definition to use
       in_data_product_ids: []          # new input data products to use
       out_data_products: {}            # new output data products to use
       configuration: {}                # new configurations
