@@ -158,7 +158,7 @@ methods:
       Cancels a running process corresponding to a data process object, updates the data process object with new params, and then
       restarts the process corresponding to the data process object. The data process id remains same.
     in:
-      data_process: !DataProcess       # the old data process object which is being replaced
+      data_process_id: ""       # the id of the old data process object which is being replaced
       data_process_definition: !DataProcessDefinition   # new data process definition to use
       in_data_product_ids: []          # new input data products to use
       out_data_products: {}            # new output data products to use
