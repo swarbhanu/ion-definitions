@@ -185,7 +185,7 @@ DeviceCommsEvent: !Extends_Event
 
 
 # To be used by transforms monitoring the health of data producers to report the status of the producers
-DeviceStatusEvent: !Extends_Event
+DeviceStatusEvent: !Extends_DeviceEvent
   status: !DeviceStatusType
   values: []
   time_stamps: []
@@ -193,7 +193,7 @@ DeviceStatusEvent: !Extends_Event
 
 ---
 
-DeviceAggregateStatusEvent: !Extends_ResourceEvent
+DeviceAggregateStatusEvent: !Extends_DeviceStatusEvent
   status_name: !AggregateStatusType
   prev_status: !DeviceStatusType
   status: !DeviceStatusType
@@ -503,6 +503,14 @@ DatasetModified: !Extends_InformationContentModifiedEvent
   # The slice of the dataset modificationsc
   window:     []
 
+ExternalReferencesUpdatedEvent: !Extends_InformationContentModifiedEvent
+  reference_keys: []
+
 ---
 
+ParameterQCEvent: !Extends_Event
+  # Origin is the dataset
+  qc_parameter:   ""
+  temporal_value: 0
+  configuration:  {}
 
